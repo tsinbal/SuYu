@@ -41,7 +41,7 @@
 
 /*******X-SOFT软件生态 接口规范的代码共享软件生态 ******/
 extern uint8_t ax_flag_nrf24l01_rx_ok;
-
+extern uint8_t ax_nrf24l01_rxbuf[NRF24L01_RX_PLOAD_WIDTH];
 //X-REMOTE NRF24L01无线通信操作函数
 uint8_t AX_NRF24L01_Init(void);  //NRF24L01初始化
 

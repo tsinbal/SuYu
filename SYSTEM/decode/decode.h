@@ -1,5 +1,5 @@
 #ifndef __DECODE_H
-#define __DECODE_H	 
+#define __DECODE_H
 #include "sys.h"
 #include "config.h"
 /*{
@@ -9,11 +9,11 @@
      volume: '2',    // (0-100)
      sound: '2',     // (0-3)
      calibrate: '4', // (0-1)
-     gpsx: '',       // 127,10   
-     gpst: '',       // (0-2)   
-     speed: '',      // (0-30)  
-     scram: '',      // (0-1)   
-     gears: '',      // (0-5)   
+     gpsx: '',       // 127,10
+     gpst: '',       // (0-2)
+     speed: '',      // (0-30)
+     scram: '',      // (0-1)
+     gears: '',      // (0-5)
  }
 }
 
@@ -35,9 +35,9 @@
 
 
 typedef struct BodyKeyValue {
-	
-	char *key;			
-	char *value;				
+
+    char *key;
+    char *value;
 } BodyKeyValue;
 void Json_Decode(int *commandid,int *version,u8 * body);
 void Body_Decode(u8 paraNum,u8	*body, BodyKeyValue *keyvalue,...);

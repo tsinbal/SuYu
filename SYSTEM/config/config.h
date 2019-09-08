@@ -1,5 +1,5 @@
 #ifndef __CONFIG_H
-#define __CONFIG_H	 
+#define __CONFIG_H
 #include "sys.h"
 #define COOC_VERSION "0001"
 #define SECOND_SUCCESS "{\"cmd\":\"20002\",\"v\":\"0001\",\"body\":{\"code\":\"0\"}}*\r\n"
@@ -36,30 +36,29 @@
 #define BODY_SPEED "speed"
 #define BODY_SCRAM "scram"
 #define BODY_GEARS "gears"
-typedef struct 
-{
-	int velocity; //实际车速
-	u8 maxspeed;
-	int l;				//左电机转速
-	int r;				//右电机转速
-	int power;		//电池电量 0-100
-	u8 battery;		//电池状态 0充电 1放电
-	int acc;			//油门深度
-	int brake;		//刹车深度
-	u8 gears;			//设定档位 0-5
-	int gps_latitude; //gps
-	int gps_longitude;
-	int distance;		//行驶距离
-	int acc_x;			//三轴加速度
-	int acc_y;
-	int acc_z;
-	int version;		//版本号
-	u8 fence;				//电子围栏 0关 1开
-	u8 soundtype;		//引擎音效
-	u8 soundvol;		//引擎音量
-	u8 parent;			//家长模式
-		
-}CarInfo;
+typedef struct {
+    int velocity; //实际车速
+    u8 maxspeed;
+    int l;				//左电机转速
+    int r;				//右电机转速
+    int power;		//电池电量 0-100
+    u8 battery;		//电池状态 0充电 1放电
+    int acc;			//油门深度
+    int brake;		//刹车深度
+    u8 gears;			//设定档位 0-5
+    int gps_latitude; //gps
+    int gps_longitude;
+    int distance;		//行驶距离
+    int acc_x;			//三轴加速度
+    int acc_y;
+    int acc_z;
+    int version;		//版本号
+    u8 fence;				//电子围栏 0关 1开
+    u8 soundtype;		//引擎音效
+    u8 soundvol;		//引擎音量
+    u8 parent;			//家长模式
+
+} CarInfo;
 extern CarInfo car_info;
 #endif
 

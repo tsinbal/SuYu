@@ -99,9 +99,17 @@ void nrf_task(void *pvParameters)
     printf("nrf start!");
     while(1) {
         if(ax_flag_nrf24l01_rx_ok) {
-            printf("");
+
+            printf("ch1 %d ch2 %d ch3 %d ch4 %d ch5 %d ",
+                   ax_nrf24l01_rxbuf[0]<<8|ax_nrf24l01_rxbuf[1],
+                   ax_nrf24l01_rxbuf[2]<<8|ax_nrf24l01_rxbuf[3],
+                   ax_nrf24l01_rxbuf[4]<<8|ax_nrf24l01_rxbuf[5],
+                   ax_nrf24l01_rxbuf[6]<<8|ax_nrf24l01_rxbuf[7],
+                   ax_nrf24l01_rxbuf[9]);
             ax_flag_nrf24l01_rx_ok = 0;
         }
+        vTaskDelay(100);
+
 
     }
 
@@ -157,11 +165,11 @@ void can_task(void *pvParameters)
 
 
     while(1) {
-        printf("start!");
+        //printf("start!");
         Can_Send_Msg(canbuf7,8,0x601);
         vTaskDelay(100);
         len = Can_Receive_Msg(rec,&stdid);
-        printf("len:%d stdid:%d data %d %d %d %d %d %d %d %d\r\n",len,stdid,rec[0],rec[1],rec[2],rec[3],rec[4],rec[5],rec[6],rec[7]);
+        //printf("len:%d stdid:%d data %d %d %d %d %d %d %d %d\r\n",len,stdid,rec[0],rec[1],rec[2],rec[3],rec[4],rec[5],rec[6],rec[7]);
 
         vTaskDelay(100);
 

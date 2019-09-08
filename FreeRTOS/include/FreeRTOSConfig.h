@@ -75,8 +75,8 @@
 #include "usart.h"
 //针对不同的编译器调用不同的stdint.h文件
 #if defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__)
-    #include <stdint.h>
-    extern uint32_t SystemCoreClock;
+#include <stdint.h>
+extern uint32_t SystemCoreClock;
 #endif
 
 //断言
@@ -89,8 +89,8 @@
 #define configUSE_PREEMPTION					1                       //1使用抢占式内核，0使用协程
 #define configUSE_TIME_SLICING					1						//1使能时间片调度(默认式使能的)
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION	1                       //1启用特殊方法来选择下一个要运行的任务
-                                                                        //一般是硬件计算前导零指令，如果所使用的
-                                                                        //MCU没有这些硬件指令的话此宏应该设置为0！
+//一般是硬件计算前导零指令，如果所使用的
+//MCU没有这些硬件指令的话此宏应该设置为0！
 #define configUSE_TICKLESS_IDLE					0                       //1启用低功耗tickless模式
 #define configUSE_QUEUE_SETS					1                       //为1时启用队列
 #define configCPU_CLOCK_HZ						(SystemCoreClock)       //CPU频率
@@ -100,18 +100,18 @@
 #define configMAX_TASK_NAME_LEN					(16)                    //任务名字字符串长度
 
 #define configUSE_16_BIT_TICKS					0                       //系统节拍计数器变量数据类型，
-                                                                        //1表示为16位无符号整形，0表示为32位无符号整形
+//1表示为16位无符号整形，0表示为32位无符号整形
 #define configIDLE_SHOULD_YIELD					1                       //为1时空闲任务放弃CPU使用权给其他同优先级的用户任务
 #define configUSE_TASK_NOTIFICATIONS            1                       //为1时开启任务通知功能，默认开启
 #define configUSE_MUTEXES						1                       //为1时使用互斥信号量
 #define configQUEUE_REGISTRY_SIZE				8                       //不为0时表示启用队列记录，具体的值是可以
-                                                                        //记录的队列和信号量最大数目。
+//记录的队列和信号量最大数目。
 #define configCHECK_FOR_STACK_OVERFLOW			0                       //大于0时启用堆栈溢出检测功能，如果使用此功能
-                                                                        //用户必须提供一个栈溢出钩子函数，如果使用的话
-                                                                        //此值可以为1或者2，因为有两种栈溢出检测方法。
+//用户必须提供一个栈溢出钩子函数，如果使用的话
+//此值可以为1或者2，因为有两种栈溢出检测方法。
 #define configUSE_RECURSIVE_MUTEXES				1                       //为1时使用递归互斥信号量
 #define configUSE_MALLOC_FAILED_HOOK			0                       //1使用内存申请失败钩子函数
-#define configUSE_APPLICATION_TASK_TAG			0                       
+#define configUSE_APPLICATION_TASK_TAG			0
 #define configUSE_COUNTING_SEMAPHORES			1                       //为1时使用计数信号量
 
 /***************************************************************************************************************/
@@ -132,9 +132,9 @@
 #define configGENERATE_RUN_TIME_STATS	        0                       //为1时启用运行时间统计功能
 #define configUSE_TRACE_FACILITY				1                       //为1启用可视化跟踪调试
 #define configUSE_STATS_FORMATTING_FUNCTIONS	1                       //与宏configUSE_TRACE_FACILITY同时为1时会编译下面3个函数
-                                                                        //prvWriteNameToBuffer(),vTaskList(),
-                                                                        //vTaskGetRunTimeStats()
-                                                                        
+//prvWriteNameToBuffer(),vTaskList(),
+//vTaskGetRunTimeStats()
+
 /***************************************************************************************************************/
 /*                                FreeRTOS与协程有关的配置选项                                                  */
 /***************************************************************************************************************/
@@ -152,7 +152,7 @@
 /***************************************************************************************************************/
 /*                                FreeRTOS可选函数配置选项                                                      */
 /***************************************************************************************************************/
-#define INCLUDE_xTaskGetSchedulerState          1                       
+#define INCLUDE_xTaskGetSchedulerState          1
 #define INCLUDE_vTaskPrioritySet		        1
 #define INCLUDE_uxTaskPriorityGet		        1
 #define INCLUDE_vTaskDelete				        1
@@ -167,9 +167,9 @@
 /*                                FreeRTOS与中断有关的配置选项                                                  */
 /***************************************************************************************************************/
 #ifdef __NVIC_PRIO_BITS
-	#define configPRIO_BITS       		__NVIC_PRIO_BITS
+#define configPRIO_BITS       		__NVIC_PRIO_BITS
 #else
-	#define configPRIO_BITS       		4                  
+#define configPRIO_BITS       		4
 #endif
 
 #define configLIBRARY_LOWEST_INTERRUPT_PRIORITY			15                      //中断最低优先级

@@ -681,8 +681,7 @@ static void	prvProcessReceivedCommands( void )
         {
             /* Negative commands are pended function calls rather than timer
             commands. */
-            if( xMessage.xMessageID < ( BaseType_t ) 0 )
-            {
+            if( xMessage.xMessageID < ( BaseType_t ) 0 ) {
                 const CallbackParameters_t * const pxCallback = &( xMessage.u.xCallbackParameters );
 
                 /* The timer uses the xCallbackParameters member to request a
@@ -691,8 +690,7 @@ static void	prvProcessReceivedCommands( void )
 
                 /* Call the function. */
                 pxCallback->pxCallbackFunction( pxCallback->pvParameter1, pxCallback->ulParameter2 );
-            } else
-            {
+            } else {
                 mtCOVERAGE_TEST_MARKER();
             }
         }
