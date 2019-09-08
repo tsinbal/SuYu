@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\FreeRTOS\include;..\FreeRTOS\portable\RVDS\ARM_CM3;..\HARDWARE\LED;..\HARDWARE\TIMER;..\HARDWARE\STMFLASH;..\SYSTEM\cjson;..\SYSTEM\decode;..\HARDWARE\CAN;..\HARDWARE\Motor;..\HARDWARE\ADC;..\HARDWARE\AJSR;..\SYSTEM\config;..\HARDWARE\DAC</IncludePath>
+              <IncludePath>..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\FreeRTOS\include;..\FreeRTOS\portable\RVDS\ARM_CM3;..\HARDWARE\LED;..\HARDWARE\TIMER;..\HARDWARE\STMFLASH;..\SYSTEM\cjson;..\SYSTEM\decode;..\HARDWARE\CAN;..\HARDWARE\Motor;..\HARDWARE\ADC;..\HARDWARE\AJSR;..\SYSTEM\config;..\HARDWARE\DAC;..\HARDWARE\NRF</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -429,39 +429,19 @@
           <GroupName>HARDWARE</GroupName>
           <Files>
             <File>
-              <FileName>led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\LED\led.c</FilePath>
-            </File>
-            <File>
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\TIMER\timer.c</FilePath>
             </File>
             <File>
-              <FileName>stmflash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\STMFLASH\stmflash.c</FilePath>
-            </File>
-            <File>
-              <FileName>adc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\ADC\adc.c</FilePath>
-            </File>
-            <File>
-              <FileName>ajsr.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\AJSR\ajsr.c</FilePath>
-            </File>
-            <File>
-              <FileName>dac.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\DAC\dac.c</FilePath>
-            </File>
-            <File>
               <FileName>can.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\CAN\can.c</FilePath>
+            </File>
+            <File>
+              <FileName>ax_nrf24l01.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\NRF\ax_nrf24l01.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -557,6 +537,11 @@
               <FileName>stm32f10x_can.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\STM32F10x_FWLib\src\stm32f10x_can.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10x_FWLib\src\stm32f10x_spi.c</FilePath>
             </File>
           </Files>
         </Group>

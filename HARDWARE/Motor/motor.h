@@ -1,10 +1,10 @@
 #ifndef __MOTOR_H
-#define __MOTOR_H	 
+#define __MOTOR_H
 #include "sys.h"
 
 #define Default_Max_Speed 15  //д╛хойг15km/h
 void Motor_Init(void);
-void Motor_SetSpeedR(int speed);	
+void Motor_SetSpeedR(int speed);
 void Motor_SetSpeedL(int speed);
 void Motor_SetSpeed(int speed);
 void Motor_Brake(float ratio);

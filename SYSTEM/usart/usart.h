@@ -26,23 +26,13 @@
 //4,修改了EN_USART1_RX的使能方式
 //V1.5修改说明
 //1,增加了对UCOSII的支持
-#define USART5_REC_LEN  			2048 	//定义最大接收字节数 1K
-#define USART5_TX_LEN  			2048  
-
-  	
-extern u8  USART5_RX_BUF[USART5_REC_LEN]; //接收缓冲,最大USART_REC_LEN个字节.末字节为换行符 
-extern u16 USART5_RX_STA;         		//接收状态标记	
-extern u16 USART5_RX_CNT;				//接收的字节数	
 
 
 
 //如果想串口中断接收，请不要注释以下宏定义
 
-//void uart_init(u32 bound);
-void Initial_UART5(u32 bound);
-
 void Initial_UART1(u32 bound);
-void u5_printf(char* fmt,...) ;
+
 #endif
 
 

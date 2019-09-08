@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    GPIO/IOToggle/stm32f10x_it.c 
+  * @file    GPIO/IOToggle/stm32f10x_it.c
   * @author  MCD Application Team
   * @version V3.5.0
   * @date    08-April-2011
@@ -22,67 +22,63 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f10x_it.h" 
+#include "stm32f10x_it.h"
 #include "motor.h"
 
- 
+
 void NMI_Handler(void)
 {
 }
- 
+
 void HardFault_Handler(void)
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-		/*Motor_SetSpeedR(0);
-		Motor_SetSpeedL(0);*/
-  }
-}
- 
-void MemManage_Handler(void)
-{
-  /* Go to infinite loop when Memory Manage exception occurs */
-  while (1)
-  {
-		/*Motor_SetSpeedR(0);
-		Motor_SetSpeedL(0);*/
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while (1) {
+        /*Motor_SetSpeedR(0);
+        Motor_SetSpeedL(0);*/
+    }
 }
 
- 
+void MemManage_Handler(void)
+{
+    /* Go to infinite loop when Memory Manage exception occurs */
+    while (1) {
+        /*Motor_SetSpeedR(0);
+        Motor_SetSpeedL(0);*/
+    }
+}
+
+
 void BusFault_Handler(void)
 {
-  /* Go to infinite loop when Bus Fault exception occurs */
-  while (1)
-  {
-				/*Motor_SetSpeedR(0);
-				Motor_SetSpeedL(0);*/
-  }
+    /* Go to infinite loop when Bus Fault exception occurs */
+    while (1) {
+        /*Motor_SetSpeedR(0);
+        Motor_SetSpeedL(0);*/
+    }
 }
- 
+
 void UsageFault_Handler(void)
 {
-  /* Go to infinite loop when Usage Fault exception occurs */
-  while (1)
-  {
-		/*Motor_SetSpeedR(0);
-		Motor_SetSpeedL(0);*/
-  }
+    /* Go to infinite loop when Usage Fault exception occurs */
+    while (1) {
+        /*Motor_SetSpeedR(0);
+        Motor_SetSpeedL(0);*/
+    }
 }
- 
+
 //void SVC_Handler(void)
 //{
 //}
- 
+
 void DebugMon_Handler(void)
 {
 }
- 
+
 //void PendSV_Handler(void)
 //{
 //}
-// 
+//
 //void SysTick_Handler(void)
 //{
 //}
