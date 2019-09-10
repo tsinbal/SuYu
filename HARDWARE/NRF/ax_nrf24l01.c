@@ -327,6 +327,7 @@ void AX_NRF24L01_SendPacket(uint8_t *pbuf)
 void EXTI1_IRQHandler(void)
 {
     uint8_t status;
+	  printf("EXTI1_IRQHandler\r\n");
 
     //是否产生了EXTI Line中断
     if(EXTI_GetITStatus(EXTI_Line1) != RESET) {

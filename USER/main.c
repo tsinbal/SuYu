@@ -47,7 +47,7 @@ void can_task(void *pvParameters);
 TaskHandle_t NRFTask_Handler;
 //任务函数
 void nrf_task(void *pvParameters);
-
+u8 nrf_status = 0;
 int main(void)
 {
     //SCB->VTOR = FLASH_BASE |0x8000;
@@ -57,7 +57,7 @@ int main(void)
     Initial_UART1(115200);
     //500kB
     CAN_Mode_Init(CAN_SJW_1tq,CAN_BS2_8tq,CAN_BS1_9tq,4,CAN_Mode_LoopBack);
-    AX_NRF24L01_Init();
+    nrf_status = AX_NRF24L01_Init();
     xTaskCreate((TaskFunction_t )start_task,            //任务函数
                 (const char*    )"start_task",          //任务名称
                 (uint16_t       )START_STK_SIZE,        //任务堆栈大小
@@ -96,7 +96,8 @@ void nrf_task(void *pvParameters)
 {
 
     vTaskDelay(1000);
-    printf("nrf start!");
+    printf("nrf start!\r\n");
+	  printf("nrf status : %d\r\n",nrf_status);
     while(1) {
         if(ax_flag_nrf24l01_rx_ok) {
 
