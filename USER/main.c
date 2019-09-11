@@ -134,7 +134,7 @@ void can_task(void *pvParameters)
     vTaskDelay(50);
 		Nimotion_Position_SendValue(Nimotion_StateMachine_GotoPosition,0,ch1 * 10);
 		vTaskDelay(50);
-		printf("goto position %d",ch1);
+		printf("goto position %d\r\n",ch1);
   }
 }
 
