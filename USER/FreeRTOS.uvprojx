@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\FreeRTOS\include;..\FreeRTOS\portable\RVDS\ARM_CM3;..\HARDWARE\LED;..\HARDWARE\TIMER;..\HARDWARE\STMFLASH;..\SYSTEM\cjson;..\SYSTEM\decode;..\HARDWARE\CAN;..\HARDWARE\Motor;..\HARDWARE\ADC;..\HARDWARE\AJSR;..\SYSTEM\config;..\HARDWARE\DAC;..\HARDWARE\NRF</IncludePath>
+              <IncludePath>..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\FreeRTOS\include;..\FreeRTOS\portable\RVDS\ARM_CM3;..\HARDWARE\LED;..\HARDWARE\TIMER;..\HARDWARE\STMFLASH;..\SYSTEM\cjson;..\SYSTEM\decode;..\HARDWARE\CAN;..\HARDWARE\Motor;..\HARDWARE\ADC;..\HARDWARE\AJSR;..\SYSTEM\config;..\HARDWARE\DAC;..\HARDWARE\NRF;..\HARDWARE\NIMOTION</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -443,6 +443,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\NRF\ax_nrf24l01.c</FilePath>
             </File>
+            <File>
+              <FileName>nimotion.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\NIMOTION\nimotion.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -462,11 +467,6 @@
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\SYSTEM\usart\usart.c</FilePath>
-            </File>
-            <File>
-              <FileName>config.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\SYSTEM\config\config.c</FilePath>
             </File>
           </Files>
         </Group>

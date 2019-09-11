@@ -49,8 +49,8 @@ uint8_t AX_NRF24L01_RX_ADDRESS[NRF24L01_RX_ADR_WIDTH] = {0xAA,0xAA,0xAA,0xAA,0x0
 //IO操作宏定义
 #define NRF24L01_CE_H()   GPIO_SetBits(GPIOB, GPIO_Pin_0)
 #define NRF24L01_CE_L()   GPIO_ResetBits(GPIOB, GPIO_Pin_0)
-#define NRF24L01_CSN_H()  GPIO_SetBits(GPIOB, GPIO_Pin_14)
-#define NRF24L01_CSN_L()  GPIO_ResetBits(GPIOB, GPIO_Pin_14)
+#define NRF24L01_CSN_H()  GPIO_SetBits(GPIOB, GPIO_Pin_15)
+#define NRF24L01_CSN_L()  GPIO_ResetBits(GPIOB, GPIO_Pin_15)
 #define NRF24L01_IRQ     (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1))
 
 //NRF24L01 操作状态
@@ -98,8 +98,8 @@ uint8_t AX_NRF24L01_RX_ADDRESS[NRF24L01_RX_ADR_WIDTH] = {0xAA,0xAA,0xAA,0xAA,0x0
 static uint8_t SPI1_Send_Byte(uint8_t dat);
 static uint8_t NRF24L01_ReadReg(uint8_t reg);
 static uint8_t NRF24L01_WriteReg(uint8_t reg, uint8_t dat);
-static uint8_t NRF24L01_ReadBuf(uint8_t reg, uint8_t *pBuf, uint8_t len);
-static uint8_t NRF24L01_WriteBuf(uint8_t reg, uint8_t *pBuf, uint8_t len);
+uint8_t NRF24L01_ReadBuf(uint8_t reg, uint8_t *pBuf, uint8_t len);
+uint8_t NRF24L01_WriteBuf(uint8_t reg, uint8_t *pBuf, uint8_t len);
 static void NRF24L01_SetRxMode(void);  //NRF24L01设置接收模式
 static void NRF24L01_ReadPacket(uint8_t *pbuf);  //读取接收的数据包
 
@@ -111,6 +111,7 @@ static void NRF24L01_ReadPacket(uint8_t *pbuf);  //读取接收的数据包
 uint8_t AX_NRF24L01_Init(void)
 {
     uint8_t buf[5]= {0XA5,0XA5,0XA5,0XA5,0XA5};
+
 
     SPI_InitTypeDef  SPI_InitStructure;
     GPIO_InitTypeDef GPIO_InitStructure;
@@ -134,7 +135,7 @@ uint8_t AX_NRF24L01_Init(void)
     GPIO_Init(GPIOB, &GPIO_InitStructure);
 
     //CSN
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
 
     //IRQ，NRF中断产生时，IRQ引脚会被拉低
@@ -178,6 +179,7 @@ uint8_t AX_NRF24L01_Init(void)
     NRF24L01_CSN_H();   //不使能SPI片选
 
     //检测NRF24L01是否在位，判断读出地址是否与写入地址相同
+
     NRF24L01_WriteBuf(NWRITE_REG+TX_ADDR,buf,5);//写入5个字节的地址.
     NRF24L01_ReadBuf(TX_ADDR,buf,5); //读出写入的地址
 
@@ -327,7 +329,6 @@ void AX_NRF24L01_SendPacket(uint8_t *pbuf)
 void EXTI1_IRQHandler(void)
 {
     uint8_t status;
-	  printf("EXTI1_IRQHandler\r\n");
 
     //是否产生了EXTI Line中断
     if(EXTI_GetITStatus(EXTI_Line1) != RESET) {
@@ -368,7 +369,7 @@ void EXTI1_IRQHandler(void)
         }
 
         //清除中断标志位
-        EXTI_ClearITPendingBit(EXTI_Line9);
+        EXTI_ClearITPendingBit(EXTI_Line1);
     }
 }
 
@@ -465,7 +466,7 @@ static uint8_t NRF24L01_WriteReg(uint8_t reg, uint8_t dat)
   *          len：数据长度
   * @返回值  状态值
   */
-static uint8_t NRF24L01_ReadBuf(uint8_t reg, uint8_t *pBuf, uint8_t len)
+uint8_t NRF24L01_ReadBuf(uint8_t reg, uint8_t *pBuf, uint8_t len)
 {
     uint8_t status,i;
 
@@ -487,7 +488,7 @@ static uint8_t NRF24L01_ReadBuf(uint8_t reg, uint8_t *pBuf, uint8_t len)
   *          len：数据长度
   * @返回值  状态值
   */
-static uint8_t NRF24L01_WriteBuf(uint8_t reg, uint8_t *pBuf, uint8_t len)
+uint8_t NRF24L01_WriteBuf(uint8_t reg, uint8_t *pBuf, uint8_t len)
 {
     uint8_t status,i;
 

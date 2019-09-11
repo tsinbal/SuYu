@@ -6,7 +6,8 @@
 #include "task.h"
 #include "can.h"
 #include "ax_nrf24l01.h"
-#include "config.h"
+#include "nimotion.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -50,12 +51,17 @@ void nrf_task(void *pvParameters);
 u8 nrf_status = 0;
 int main(void)
 {
+		u8 time = 0;
+	u8 res = 0;
+	    uint8_t buf[5]= {0XA5,0XA5,0XA5,0XA5,0XA5};
+
     //SCB->VTOR = FLASH_BASE |0x8000;
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);//设置系统中断优先级分组4
     delay_init();	    				//延时函数初始化
+	delay_ms(2000);
     //LED_Init();
     Initial_UART1(115200);
-    //500kB
+    //500kB	
     CAN_Mode_Init(CAN_SJW_1tq,CAN_BS2_8tq,CAN_BS1_9tq,4,CAN_Mode_LoopBack);
     nrf_status = AX_NRF24L01_Init();
     xTaskCreate((TaskFunction_t )start_task,            //任务函数
@@ -92,6 +98,9 @@ void start_task(void *pvParameters)
 
 
 }
+uint16_t ch1 = 128;
+uint16_t ch2 = 128;
+
 void nrf_task(void *pvParameters)
 {
 
@@ -100,11 +109,10 @@ void nrf_task(void *pvParameters)
 	  printf("nrf status : %d\r\n",nrf_status);
     while(1) {
         if(ax_flag_nrf24l01_rx_ok) {
-
-            printf("ch1 %d ch2 %d ch3 %d ch4 %d ch5 %d ",
-                   ax_nrf24l01_rxbuf[0]<<8|ax_nrf24l01_rxbuf[1],
-                   ax_nrf24l01_rxbuf[2]<<8|ax_nrf24l01_rxbuf[3],
-                   ax_nrf24l01_rxbuf[4]<<8|ax_nrf24l01_rxbuf[5],
+					ch1 = ax_nrf24l01_rxbuf[0]<<8|ax_nrf24l01_rxbuf[1];
+					ch2 = ax_nrf24l01_rxbuf[2]<<8|ax_nrf24l01_rxbuf[3];
+            printf("ch1 %d ch2 %d ch3 %d ch4 %d ch5 %d ",ch1
+                   ,ch2,ax_nrf24l01_rxbuf[4]<<8|ax_nrf24l01_rxbuf[5],
                    ax_nrf24l01_rxbuf[6]<<8|ax_nrf24l01_rxbuf[7],
                    ax_nrf24l01_rxbuf[9]);
             ax_flag_nrf24l01_rx_ok = 0;
@@ -119,63 +127,14 @@ void nrf_task(void *pvParameters)
 
 void can_task(void *pvParameters)
 {
-
-
-
-
-    u8 canbuf1[8] = {0x06,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
-    u8 canbuf2[8] = {0x02,0x01,0x00,0x01,0x00,0x00,0x00,0x00};
-    u8 canbuf3[8] = {0x07,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
-    u8 canbuf4[8] = {0x0F,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
-    u8 canbuf5[8] = {0x1F,0x00,0x00,0x00,0xff,0x3f,0x00,0x00};
-    u8 canbuf6[8] = {0x1F,0x00,0x00,0x00,0xff,0x1f,0x00,0x00};
-
-
-
-//	vTaskDelay(1000);
-//	printf("start!");
-//	Can_Send_Msg(canbuf1,8,0x401);
-//	vTaskDelay(100);
-//	printf("run state!");
-//	Can_Send_Msg(canbuf2,8,0x601);
-//	vTaskDelay(100);
-//	printf("position mode!");
-//	Can_Send_Msg(canbuf3,8,0x401);
-//	vTaskDelay(100);
-//	printf("enable state!");
-//	Can_Send_Msg(canbuf4,8,0x401);
-//	vTaskDelay(500);
-//	printf("goto command!");
-//	printf("runinng.....");
-//	Can_Send_Msg(canbuf5,8,0x401);
-//	printf("backing.....");
-//	Can_Send_Msg(canbuf5,8,0x401);
-//	vTaskDelay(100);
-//
-//	while(1)
-//	{
-//		vTaskDelay(1000);
-//		printf("send can message!");
-//	}
-
-    u8 canbuf7[8] = {0x01,0x01,0x00,0x00,0x00,0x00,0x00,0x00};
-
-    u8 rec[8];
-    u32 stdid = 0;
-    u8 len = 0;
-
-
-    while(1) {
-        //printf("start!");
-        Can_Send_Msg(canbuf7,8,0x601);
-        vTaskDelay(100);
-        len = Can_Receive_Msg(rec,&stdid);
-        //printf("len:%d stdid:%d data %d %d %d %d %d %d %d %d\r\n",len,stdid,rec[0],rec[1],rec[2],rec[3],rec[4],rec[5],rec[6],rec[7]);
-
-        vTaskDelay(100);
-
-
-
-    }
+	Nimotion_Init(1280);
+	vTaskDelay(1000);
+  while(1) {
+		Nimotion_Position_SendValue(Nimotion_StateMachine_GotoCommand,0,0);
+    vTaskDelay(50);
+		Nimotion_Position_SendValue(Nimotion_StateMachine_GotoPosition,0,ch1 * 10);
+		vTaskDelay(50);
+		printf("goto position %d",ch1);
+  }
 }
 

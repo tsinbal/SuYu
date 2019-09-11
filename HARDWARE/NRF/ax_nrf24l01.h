@@ -49,6 +49,8 @@ void AX_NRF24L01_SetTxAddress(uint8_t addr);  //NRF24L01 设置发送地址(对方的接收
 void AX_NRF24L01_SetRxAddress(uint8_t addr);  //NRF24L01设置接收地址（本机接收地址）
 void AX_NRF24L01_SetFrqChannel(uint8_t chr);  // NRF24L01设置频率点
 void AX_NRF24L01_SetSpeed(uint8_t rate);  //NRF24L01设置空中速率
+uint8_t NRF24L01_WriteBuf(uint8_t reg, uint8_t *pBuf, uint8_t len);
+uint8_t NRF24L01_ReadBuf       (uint8_t reg, uint8_t *pBuf, uint8_t len);
 
 void AX_NRF24L01_SendPacket(uint8_t *pbuf);    //NRF24L01发送数据包
 
