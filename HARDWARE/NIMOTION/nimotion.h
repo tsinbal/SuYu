@@ -62,7 +62,7 @@ void Nimotion_Init();
 void Nimotion_SDO_SendValue(Nimotion_SDO_Mode_TypeDef Mode_Structure, Nimotion_SDO_Index_TypeDef Index_Structure, uint32_t value);
 void Nimotion_Position_SendValue(Nimotion_StateMachine_TypeDef Control_Word,uint8_t Direction,uint32_t Position);
 void Nimotion_Velocity_SendValue(Nimotion_StateMachine_TypeDef Control_Word,uint8_t Direction,uint32_t velocity);
-
+void Nimotion_Driver_SendValue(u8 left_dir,u8 right_dir,u8 left_speed,u8 right_speed);
 #endif
 
 

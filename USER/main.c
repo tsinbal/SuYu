@@ -100,17 +100,27 @@ void start_task(void *pvParameters)
 }
 uint16_t ch1 = 128;
 uint16_t ch2 = 128;
-
+uint16_t ch3 = 128;
+uint16_t ch4 = 128;
+u8 left_speed = 0;
+u8 right_speed = 0;
+u8 dir =1;
 void nrf_task(void *pvParameters)
 {
 
     vTaskDelay(1000);
     printf("nrf start!\r\n");
 	  printf("nrf status : %d\r\n",nrf_status);
+	
     while(1) {
         if(ax_flag_nrf24l01_rx_ok) {
 					ch1 = ax_nrf24l01_rxbuf[0]<<8|ax_nrf24l01_rxbuf[1];
 					ch2 = ax_nrf24l01_rxbuf[2]<<8|ax_nrf24l01_rxbuf[3];
+					ch3 = ax_nrf24l01_rxbuf[4]<<8|ax_nrf24l01_rxbuf[5];
+					ch4 = ax_nrf24l01_rxbuf[6]<<8|ax_nrf24l01_rxbuf[7];
+					
+					
+					
 //          printf("ch1 %d ch2 %d ch3 %d ch4 %d ch5 %d ",ch1
 //                   ,ch2,ax_nrf24l01_rxbuf[4]<<8|ax_nrf24l01_rxbuf[5],
 //                   ax_nrf24l01_rxbuf[6]<<8|ax_nrf24l01_rxbuf[7],
@@ -134,14 +144,19 @@ u16 abs_a_b(u16 a, u16 b)
 }
 void can_task(void *pvParameters)
 {
-	u8 dir = 0;
 	Nimotion_Init(1280);
 	vTaskDelay(1000);
   while(1) {
+		left_speed = abs_a_b(ch3,128)*100/127;
+		right_speed = left_speed;
+		dir = (ch3 > 128) ? 1 : 0;
+		
 		Nimotion_Position_SendValue(Nimotion_StateMachine_Position_GotoCommand,0,0);
-		vTaskDelay(40);
+		vTaskDelay(20);
 		Nimotion_Position_SendValue(Nimotion_StateMachine_Position_GotoPosition,0,ch1 * 10);
-		vTaskDelay(40);
+		vTaskDelay(20);
+		Nimotion_Driver_SendValue(dir,dir,left_speed,right_speed);
+		vTaskDelay(20);
 //		if(ch1 > 128) dir = 1;
 //		else dir = 0;
 //		
