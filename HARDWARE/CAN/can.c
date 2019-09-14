@@ -104,7 +104,7 @@ void USB_LP_CAN1_RX0_IRQHandler(void)
     BaseType_t result;
     CAN_Receive(CAN1, 0, &RxMessage);
     result = xQueueSendFromISR(canQueue,&RxMessage,NULL);
-	  printf("can message stdid %d data %d %d %d %d %d %d %d %d\r\n",RxMessage.StdId,RxMessage.Data[0],RxMessage.Data[1],RxMessage.Data[2],RxMessage.Data[3],RxMessage.Data[4],RxMessage.Data[5],RxMessage.Data[6],RxMessage.Data[7]);
+	  printf("can message stdid %03x data %02x %02x %02x %02x %02x %02x %02x %02x\r\n",RxMessage.StdId,RxMessage.Data[0],RxMessage.Data[1],RxMessage.Data[2],RxMessage.Data[3],RxMessage.Data[4],RxMessage.Data[5],RxMessage.Data[6],RxMessage.Data[7]);
 
 }
 #endif

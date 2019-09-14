@@ -17,7 +17,10 @@ void Nimotion_TPDO3_Transfer(uint8_t *Send_Buf,Nimotion_InitTypeDef *Nimotion_In
 {
     Can_Send_Msg(Send_Buf,8,Nimotion_TPDO3_Addr+Nimotion_InitStructure->Nimotion_Addr);
 }
-
+void Nimotion_TPDO2_Transfer(uint8_t *Send_Buf,Nimotion_InitTypeDef *Nimotion_InitStructure)
+{
+    Can_Send_Msg(Send_Buf,8,Nimotion_TPDO2_Addr+Nimotion_InitStructure->Nimotion_Addr);
+}
 
 Nimotion_InitTypeDef Nimotion_InitStructure;
 void Nimotion_Init(uint32_t Zero_Position)
@@ -25,25 +28,45 @@ void Nimotion_Init(uint32_t Zero_Position)
     Nimotion_InitStructure.Nimotion_Addr = 1;
 		Nimotion_InitStructure.Nimotion_Zero_Position = Zero_Position;
     Nimotion_SDO_SendValue(Nimotion_SDO_Mode_Read, Nimotion_Move_Mode, 0);
-		Nimotion_Delay_Ms(50);
+		Nimotion_Delay_Ms(100);
 	  Nimotion_SDO_SendValue(Nimotion_SDO_Mode_Write,Nimotion_Sync_RPDO3,0xff);
-		Nimotion_Delay_Ms(50);
+		Nimotion_Delay_Ms(100);
 		Nimotion_SDO_SendValue(Nimotion_SDO_Mode_Write,Nimotion_Sync_TPDO3,0xff);
-		Nimotion_Delay_Ms(50);
+		Nimotion_Delay_Ms(100);
 		Nimotion_SDO_SendValue(Nimotion_SDO_Mode_Write,Nimotion_Move_Acc,0xffff);
-		Nimotion_Delay_Ms(50);
+		Nimotion_Delay_Ms(100);
 		Nimotion_SDO_SendValue(Nimotion_SDO_Mode_Write,Nimotion_Move_Max_Seed,0xffff);
-		Nimotion_Delay_Ms(50);
+		Nimotion_Delay_Ms(100);
+		Nimotion_SDO_SendValue(Nimotion_SDO_Mode_Write,Nimotion_PDO_Mode,0x04);
+		Nimotion_Delay_Ms(200);
+		Nimotion_SDO_SendValue(Nimotion_SDO_Mode_Read,Nimotion_Interval_PDO3,0x1e);
+		Nimotion_Delay_Ms(200);
+	
+	
+	
+	
 	  Nimotion_Position_SendValue(Nimotion_StateMachine_StartUp,0,0);
-	  Nimotion_Delay_Ms(50);
-		Nimotion_SDO_SendValue(Nimotion_SDO_Mode_Read, Nimotion_Move_Mode, 1); //位置模式
-		Nimotion_Delay_Ms(50);
+	  Nimotion_Delay_Ms(100);
+		Nimotion_SDO_SendValue(Nimotion_SDO_Mode_Read, Nimotion_Move_Mode, 1); //1位置模式 3 Speed mode
+		Nimotion_Delay_Ms(100);
 	  Nimotion_Position_SendValue(Nimotion_StateMachine_MotorEnable,0,0);
-	  Nimotion_Delay_Ms(50);
-		Nimotion_Position_SendValue(Nimotion_StateMachine_GotoCommand,0,0);
-	  Nimotion_Delay_Ms(50);
-		Nimotion_Position_SendValue(Nimotion_StateMachine_GotoPosition,0,Zero_Position);
-	  Nimotion_Delay_Ms(50);
+	  Nimotion_Delay_Ms(100);
+		Nimotion_Position_SendValue(Nimotion_StateMachine_Position_GotoCommand,0,0);
+	  Nimotion_Delay_Ms(100);
+		Nimotion_Position_SendValue(Nimotion_StateMachine_Position_GotoPosition,0,Zero_Position);
+		printf("nimotion inited\r\n");
+	  Nimotion_Delay_Ms(3000);
+		
+//		//Speed mode
+//		Nimotion_Velocity_SendValue(Nimotion_StateMachine_StartUp,0,0);
+//	  Nimotion_Delay_Ms(500);
+//		Nimotion_SDO_SendValue(Nimotion_SDO_Mode_Write, Nimotion_Move_Mode, 3); //1位置模式 3 Speed mode
+//		Nimotion_Delay_Ms(500);
+//	  Nimotion_Velocity_SendValue(Nimotion_StateMachine_MotorEnable,0,0);
+//	  Nimotion_Delay_Ms(500);
+//		Nimotion_Velocity_SendValue(Nimotion_StateMachine_Velocity_Run,0,0);
+//	  Nimotion_Delay_Ms(500);
+		
 
 }
 
@@ -62,8 +85,8 @@ void Nimotion_SDO_SendValue(Nimotion_SDO_Mode_TypeDef Mode_Structure, Nimotion_S
 }
 void Nimotion_Position_SendValue(Nimotion_StateMachine_TypeDef Control_Word,uint8_t Direction,uint32_t Position)
 {
-	Nimotion_SendBuf[Nimotion_TPDO_CtrlWordLow_Pos] = Control_Word && 0xff;
-	Nimotion_SendBuf[Nimotion_TPDO_CtrlWordHigh_Pos] = (Control_Word>>8) && 0xff;
+	Nimotion_SendBuf[Nimotion_TPDO_CtrlWordLow_Pos] = Control_Word & 0xff;
+	Nimotion_SendBuf[Nimotion_TPDO_CtrlWordHigh_Pos] = (Control_Word>>8) & 0xff;
 	Nimotion_SendBuf[2] = 0;
   Nimotion_SendBuf[3] = Direction;
 	Nimotion_SendBuf[Nimotion_TPDO_ValueLow_Pos] = Position & 0xff;
@@ -72,7 +95,18 @@ void Nimotion_Position_SendValue(Nimotion_StateMachine_TypeDef Control_Word,uint
   Nimotion_SendBuf[Nimotion_TPDO_ValueHigh_Pos] = (Position>>24) & 0xff;
 	Nimotion_TPDO3_Transfer(Nimotion_SendBuf,&Nimotion_InitStructure);
 }
-
+void Nimotion_Velocity_SendValue(Nimotion_StateMachine_TypeDef Control_Word,uint8_t Direction,uint32_t velocity)
+{
+	Nimotion_SendBuf[Nimotion_TPDO_CtrlWordLow_Pos] = Control_Word & 0xff;
+	Nimotion_SendBuf[Nimotion_TPDO_CtrlWordHigh_Pos] = (Control_Word>>8) & 0xff;
+	Nimotion_SendBuf[2] = 0;
+  Nimotion_SendBuf[3] = Direction;
+	Nimotion_SendBuf[Nimotion_TPDO_ValueLow_Pos] = velocity & 0xff;
+  Nimotion_SendBuf[Nimotion_TPDO_ValueMidLow_Pos] = (velocity>>8) & 0xff;
+  Nimotion_SendBuf[Nimotion_TPDO_ValueMidHigh_Pos] = (velocity>>16) & 0xff;
+  Nimotion_SendBuf[Nimotion_TPDO_ValueHigh_Pos] = (velocity>>24) & 0xff;
+	Nimotion_TPDO2_Transfer(Nimotion_SendBuf,&Nimotion_InitStructure);
+}
 
 
 

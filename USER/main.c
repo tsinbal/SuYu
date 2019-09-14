@@ -62,7 +62,7 @@ int main(void)
     //LED_Init();
     Initial_UART1(115200);
     //500kB	
-    CAN_Mode_Init(CAN_SJW_1tq,CAN_BS2_8tq,CAN_BS1_9tq,4,CAN_Mode_LoopBack);
+    CAN_Mode_Init(CAN_SJW_1tq,CAN_BS2_8tq,CAN_BS1_9tq,4,CAN_Mode_Normal);
     nrf_status = AX_NRF24L01_Init();
     xTaskCreate((TaskFunction_t )start_task,            //任务函数
                 (const char*    )"start_task",          //任务名称
@@ -111,30 +111,43 @@ void nrf_task(void *pvParameters)
         if(ax_flag_nrf24l01_rx_ok) {
 					ch1 = ax_nrf24l01_rxbuf[0]<<8|ax_nrf24l01_rxbuf[1];
 					ch2 = ax_nrf24l01_rxbuf[2]<<8|ax_nrf24l01_rxbuf[3];
-            printf("ch1 %d ch2 %d ch3 %d ch4 %d ch5 %d ",ch1
-                   ,ch2,ax_nrf24l01_rxbuf[4]<<8|ax_nrf24l01_rxbuf[5],
-                   ax_nrf24l01_rxbuf[6]<<8|ax_nrf24l01_rxbuf[7],
-                   ax_nrf24l01_rxbuf[9]);
+//          printf("ch1 %d ch2 %d ch3 %d ch4 %d ch5 %d ",ch1
+//                   ,ch2,ax_nrf24l01_rxbuf[4]<<8|ax_nrf24l01_rxbuf[5],
+//                   ax_nrf24l01_rxbuf[6]<<8|ax_nrf24l01_rxbuf[7],
+//                   ax_nrf24l01_rxbuf[9]);
             ax_flag_nrf24l01_rx_ok = 0;
         }
-        vTaskDelay(100);
+        vTaskDelay(30);
 
 
     }
 
 }
-
-
+u16 abs_a_b(u16 a, u16 b)
+{
+	if(a > b)
+		return a - b;
+	else if(a < b)
+		return b - a;
+	else 
+		return 0;
+}
 void can_task(void *pvParameters)
 {
+	u8 dir = 0;
 	Nimotion_Init(1280);
 	vTaskDelay(1000);
   while(1) {
-		Nimotion_Position_SendValue(Nimotion_StateMachine_GotoCommand,0,0);
-    vTaskDelay(50);
-		Nimotion_Position_SendValue(Nimotion_StateMachine_GotoPosition,0,ch1 * 10);
-		vTaskDelay(50);
-		printf("goto position %d\r\n",ch1);
+		Nimotion_Position_SendValue(Nimotion_StateMachine_Position_GotoCommand,0,0);
+		vTaskDelay(40);
+		Nimotion_Position_SendValue(Nimotion_StateMachine_Position_GotoPosition,0,ch1 * 10);
+		vTaskDelay(40);
+//		if(ch1 > 128) dir = 1;
+//		else dir = 0;
+//		
+//		Nimotion_Velocity_SendValue(Nimotion_StateMachine_Velocity_Run,dir,abs_a_b(ch1 , (u16)128));
+//		vTaskDelay(30);
+		//printf("goto position %d\r\n",abs_a_b(ch1 , 128)*10);
   }
 }
 

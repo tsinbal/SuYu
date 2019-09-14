@@ -21,17 +21,19 @@ typedef enum {
     Nimotion_Move_Acc = 0x07, //运行加速度
     Nimotion_Move_Max_Seed = 0x18, //运行最大速度
     Nimotion_Sync_RPDO3 = 0x1e, //RPDO3传输方式，同步异步
-    Nimotion_Sync_TPDO3 = 0x1f  //TPDO3传输方式，同步异步
+    Nimotion_Sync_TPDO3 = 0x1f,  //TPDO3传输方式，同步异步
+		Nimotion_Interval_PDO3 = 0x8b,
+		Nimotion_PDO_Mode = 0x80
 
 } Nimotion_SDO_Index_TypeDef; //SDO 索引类型，见PDF
 typedef enum{
 	Nimotion_StateMachine_StartUp = 0x06, //启动状态
 	Nimotion_StateMachine_MotorEnable = 0x07, //电机使能
-	
-	Nimotion_StateMachine_GotoCommand = 0x0F, //运行Goto指令
-	Nimotion_StateMachine_GotoPosition = 0x1F, //发送Goto位置
-	Nimotion_StateMachine_MoveCommand = 0x4F, //运行Move指令
-	Nimotion_StateMachine_MovePosition = 0x5F //发送新位置
+	Nimotion_StateMachine_Velocity_Run = 0x0F, //Speed Mode Run
+	Nimotion_StateMachine_Position_GotoCommand = 0x0F, //运行Goto指令
+	Nimotion_StateMachine_Position_GotoPosition = 0x1F, //发送Goto位置
+	Nimotion_StateMachine_Position_MoveCommand = 0x4F, //运行Move指令
+	Nimotion_StateMachine_Position_MovePosition = 0x5F //发送新位置
 }Nimotion_StateMachine_TypeDef; //状态机
 
 
@@ -59,6 +61,7 @@ typedef enum{
 void Nimotion_Init();
 void Nimotion_SDO_SendValue(Nimotion_SDO_Mode_TypeDef Mode_Structure, Nimotion_SDO_Index_TypeDef Index_Structure, uint32_t value);
 void Nimotion_Position_SendValue(Nimotion_StateMachine_TypeDef Control_Word,uint8_t Direction,uint32_t Position);
+void Nimotion_Velocity_SendValue(Nimotion_StateMachine_TypeDef Control_Word,uint8_t Direction,uint32_t velocity);
 
 #endif
 
